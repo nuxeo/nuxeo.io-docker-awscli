@@ -5,8 +5,11 @@
 FROM       quay.io/nuxeoio/iobase
 MAINTAINER Nuxeo <contact@nuxeo.com>
 
-# Install dependencies
-RUN apt-get install -y awscli
+RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
+  unzip awscli-bundle.zip && \
+  rm awscli-bundle.zip && \
+  apt-get install -y groff
+RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/bin/aws
 ADD write-awscli-conf.sh /bin/write-awscli-conf.sh
 ADD awscli.sh /bin/awscli.sh
 
